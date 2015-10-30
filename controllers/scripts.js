@@ -29,13 +29,34 @@ $(document).ready(function(){
     $.ajax(setting).done(function(data){ 
         //kun serveriltä vastaus, kutsu done-funktiota
         console.log(data);
+        
+        //Get all keys (attribute names) from json object
+        console.log(Object.keys(data.rows[0]));
+        
+        //Check that there are elements in array
+        if(data.rows.length > 0) {
+            //Create table headers dynamically
+            var headers = Object.keys(data.rows[0]);
+            var row = $("<tr></tr>");
+            for(var i = 1; i < headers.length; i++){
+                $("<th>" + headers[i] + "</th>").appendTo(row);
+            }
+            //Add row to thead element
+            $(row).appendTo("thead");
+        }
+        
+        //Create headers also dynamically
+        var headers = Object.keys(data.rows[0]);
+        
+        
         for(var i=0; i < data.rows.length; i++){
             
+           
             var html = "<tr>" +
                     "<td>" + data.rows[i].name + "</td>" +
                     "<td>" + data.rows[i].address + "</td>" +
                     "<td>" + data.rows[i].age + "</td>" +                
-                    "</tr>";
+                    "</tr>";0
             
             $(html).appendTo("tbody");
 
