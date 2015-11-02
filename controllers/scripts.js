@@ -1,4 +1,6 @@
 
+// Client
+
 "use strict";
 console.log("Here we go!!");
 
@@ -21,9 +23,8 @@ $(document).ready(function(){
     var setting = { 
         // objekti tehään usein kuitenkin inline
         method:"GET",
-        url:"http://localhost:28017/oma/person/",
-        dataType:"jsonp",
-        jsonp:"jsonp"
+        url:"http://localhost:3000/persons",
+        dataType:"json",
     }
     
     $.ajax(setting).done(function(data){ 
@@ -31,12 +32,12 @@ $(document).ready(function(){
         console.log(data);
         
         //Get all keys (attribute names) from json object
-        console.log(Object.keys(data.rows[0]));
+        console.log(Object.keys(data[0]));
         
         //Check that there are elements in array
-        if(data.rows.length > 0) {
+        if(data.length > 0) {
             //Create table headers dynamically
-            var headers = Object.keys(data.rows[0]);
+            var headers = Object.keys(data[0]);
             var row = $("<tr></tr>");
             for(var i = 1; i < headers.length; i++){
                 $("<th>" + headers[i] + "</th>").appendTo(row);
@@ -46,33 +47,22 @@ $(document).ready(function(){
         }
         
         //Create headers also dynamically
-        var headers = Object.keys(data.rows[0]);
+        var headers = Object.keys(data[0]);
         
         
-        for(var i=0; i < data.rows.length; i++){
+        for(var i=0; i < data.length; i++){
             
            
             var html = "<tr>" +
-                    "<td>" + data.rows[i].name + "</td>" +
-                    "<td>" + data.rows[i].address + "</td>" +
-                    "<td>" + data.rows[i].age + "</td>" +                
-                    "</tr>";0
+                    "<td>" + data[i].name + "</td>" +
+                    "<td>" + data[i].address + "</td>" +
+                    "<td>" + data[i].age + "</td>" +                
+                    "</tr>";
             
             $(html).appendTo("tbody");
 
         }
         
-        /*for(var i=0; i < data.rows.length; i++){
-            
-            var html =
-                    "<li>" + data.rows[i].name + "</li>" +
-                    "<li>" + data.rows[i].address + "</li>" +
-                    "<li>" + data.rows[i].age + "</li>"              
-                    ;
-            
-            $(html).appendTo("tbody");
-
-        } */       
     });
     
 });
