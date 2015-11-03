@@ -1,8 +1,10 @@
 // nodea käyttämällä ei tarvi huolehtia säikeistä, expressillä tehään i/o -operaatioita
 
+// javascriptissä "" tai '' ei ole merkitystä
 
 var express = require("express");  // ladataan express moduuli
 var path = require("path");
+var bodyParser = require("body-parser");
 var database = require('./modules/database');
 var queries = require('./modules/queries');
 var person = require('./modules/person');
@@ -13,13 +15,18 @@ var app = express();    // luodaan serveri
 
 // middlewaret esitellään aina ennen routereita
 // käydään läpi, vaikka kutsu olisi osoitettu routerille
+
+//Bodyparser json() middleware parses the json object
+//from HTTP POST request
+app.use(bodyParser.urlencoded());
 app.use(function(req,res,next){                     // 1.
     
     console.log(req.method);
     console.log(req.path);
     console.log(__dirname)
-    console.log(database.Person);
-    database.myFunction();
+    console.log(req.body);
+    //console.log(database.Person);
+    //database.myFunction();
     //Send reques forward in stack
     next(); // seuraavaan middlewareen
 });
