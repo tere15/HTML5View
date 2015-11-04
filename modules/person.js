@@ -1,3 +1,4 @@
+//backend
 
 var express = require("express");
 var db = require('./queries');
@@ -6,7 +7,7 @@ var router = express.Router();
 
 
 // Handle GET requests for /persons context
-router.get('/', function(req,res){
+router.get('/', function (req,res){
 
     db.getAllPersons(req,res);
 });
@@ -18,14 +19,17 @@ router.post('/', function(req,res){
 
 
 router.put('/', function(req,res){
+    
+    db.updatePerson(req,res);
 
 });
 
 
-router.delete('/', function(req,res){
+router.delete('/:id', function (req,res){
+    console.log("router.delete");
+    db.deletePerson(req,res);
 
 });
-
 
 module.exports = router;
 
