@@ -1,8 +1,9 @@
 /***** yhteys tietokantaan  ******/
 var mongoose = require("mongoose");
+mongoose.connect('mongodb://localhost:27017/oma', connectionStatus);
 
-mongoose.connect('mongodb://localhost:27017/oma',connetctionStatus);
 /*********************************/
+//connetctionStatus
 
 // Kaikki tässä funktiossa privateja, jos ei exportata ulos
 
@@ -10,7 +11,7 @@ mongoose.connect('mongodb://localhost:27017/oma',connetctionStatus);
   * Connection callback for fail and ok cases
   */
 
-function connetctionStatus(err, ok){
+function connectionStatus(err, ok){
     
     if(err){
         console.log(err.message);
@@ -20,7 +21,15 @@ function connetctionStatus(err, ok){
 
 }
 
-var Person = mongoose.model('person',{ 
+
+var User = mongoose.model('User',{
+    username:{type:String,unique:true},
+    password:String,
+    friends:[{type:mongoose.Schema.Types.ObjectId,ref:'Person'}]
+});
+
+
+var Person = mongoose.model('Person',{ 
     name: String,
     address: String,
     age:{type:Number}

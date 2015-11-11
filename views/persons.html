@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fi">
+    <head>
+        <meta charset="utf-8">
+        <title>Hello World!</title>
+        <link href="/css/styles.css" type="text/css" rel="stylesheet"/>
+        <link href="/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+        <link href="/css/bootstrap-theme.min.css" type="text/css" rel="stylesheet"/>
+    </head>
+    <body> <!-- kommentti -->
+      <div>
+        <nav id="head">
+        <a href="http://www.kaleva.fi">Kaleva</a>
+        <a href="http://www.iltalehti.fi">Iltalehti</a>     
+        <a href="addPerson.html">Add Person</a>              
+            
+        </nav>    
+        <section>
+            <h1 class="about"> About</h1>
+            <input id="search_text" type="text" placeholder="search by name" />
+            <input type="button" value="Search" id="search"/>
+            <table class="table">
+                <thead>
+                    <!--
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Age</th>
+                    </tr>
+                    -->
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+            <ul class="list-group">
+                <li>Name</li>
+                <li>Address</li>
+                <li>Age</li>
+            </ul>
+        </section>
+      </div>
+      <footer data-dummy="">
+          <p>Copyright by Team Ohjelmistokehitys</p>
+        </footer>
+ 
+      <script src="/lib/jquery-2.1.4.min.js"></script> <!-- kertoo middlewarelle contekstin -->
+      <script src="/controllers/scripts.js"></script> <!-- kertoo middlewarelle contekstin -->
+        
+    </body>
+    
+</html>

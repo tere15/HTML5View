@@ -48,3 +48,16 @@ div:firstChild {
 [class="fancy"] {
     
 }
+
+.login_container{
+    
+    width: 500px;
+    margin: 8px auto;   /*ulkopuolelle tilaa, keskittää elementin*/
+    border: 2px solid black;
+    border-radius: 5px;         /*pyöristetyt kulmat*/
+    background-color:darksalmon;
+    padding: 8px; /*elementin sisälle tilaa*/
+}
+
+
+

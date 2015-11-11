@@ -7,9 +7,16 @@ var router = express.Router();
 
 
 // Handle GET requests for /persons context
-router.get('/', function (req,res){
+router.get('/', function(req,res){
 
     db.getAllPersons(req,res);
+});
+
+router.get('/:nimi', function(req,res){
+
+    console.log("Get with name router called");
+    db.findPersonsByName(req,res);
+    
 });
 
 // Handle POST requests for /persons context
@@ -25,11 +32,12 @@ router.put('/', function(req,res){
 });
 
 
-router.delete('/:id', function (req,res){
+router.delete('/:id', function(req,res){
     console.log("router.delete");
     db.deletePerson(req,res);
 
 });
+
 
 module.exports = router;
 
