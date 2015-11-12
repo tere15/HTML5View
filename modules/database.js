@@ -1,3 +1,4 @@
+/*Tähän tiedostoon määritellään tietokannan schema*/
 /***** yhteys tietokantaan  ******/
 var mongoose = require("mongoose");
 mongoose.connect('mongodb://localhost:27017/oma', connectionStatus);
@@ -28,7 +29,6 @@ var User = mongoose.model('User',{
     friends:[{type:mongoose.Schema.Types.ObjectId,ref:'Person'}]
 });
 
-
 var Person = mongoose.model('Person',{ 
     name: String,
     address: String,
@@ -37,6 +37,7 @@ var Person = mongoose.model('Person',{
 
 //Using exports object you exorse the data to other modules
 exports.Person = Person; // viedään muuttuja tämän moduulin ulkopuolelle, muuten näkyy vain tässä tiedostossa
+exports.Friends = User;
 
 exports.myFunction = function(){
     console.log("This ");

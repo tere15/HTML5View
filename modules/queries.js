@@ -1,4 +1,5 @@
 //backend
+//Tämä tiedosto sisältää tietokantakyselyt jne operaatiot//
 
 var db = require('./database');
 
@@ -96,5 +97,71 @@ exports.findPersonsByName = function(req,res) {
     });
     
 }
+
+exports.registerFriend = function(req,res){
+    
+    var friend = new db.Friends(req.body);
+    
+    friend.save(function(err){
+                
+        if(err){
+            res.send({status:err.message});
+             // "Registration failed, please use another userid!"
+        }
+        else{
+            res.send({status:"Ok"});
+            
+        }
+    });
+
+}
+
+exports.loginFriend = function(req,res){
+    
+    var searchObject = {
+        username:req.body.username,
+        password:req.body.password
+    }
+    
+    db.Friends.find(searchObject,function(err,data){
+        
+        if(err){
+            
+            res.send({status:err.message});
+        }else{
+            //=< 0 means wrong username or password
+            if(data.length > 0){
+                res.send({status:"Ok"});
+            }
+            else{
+                res.send({status:"Wrong username or password"});
+            }
+        }
+    });
+    
+}
+
+exports.getFriendsByUsername = function(req,res){
+    
+    var usern = req.params.username.split("=")[1];
+    db.Friends.find({username:usern}).
+        populate('friends').exec(function(err,data){
+        
+            console.log(err);
+            console.log(data);
+            res.send(data.friends);
+    });
+        
+}
+
+
+
+
+
+
+
+
+
+
 
     

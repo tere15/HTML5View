@@ -51,7 +51,7 @@ $(document).ready(function(){
     var setting = { 
         // objekti tehään usein kuitenkin inline
         method:"GET",
-        url:"http://localhost:3000/persons",
+        url:"http://localhost:3000/friends/username=" + localStorage['username'],
         dataType:"json",
     }
     

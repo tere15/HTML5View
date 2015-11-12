@@ -1,13 +1,16 @@
+//serveri (backend)
+
 // nodea käyttämällä ei tarvi huolehtia säikeistä, expressillä tehään i/o -operaatioita
 
 // javascriptissä "" tai '' ei ole merkitystä
 
-var express = require("express");  // ladataan express moduuli
+var express = require("express");  // ladataan express moduuli muuttujaan
 var path = require("path");
 var bodyParser = require("body-parser");
 var database = require('./modules/database');
 var queries = require('./modules/queries');
 var person = require('./modules/person');
+var user = require('./modules/user');
 var app = express();    // luodaan serveri
 
 //Middlewaret ja routersit käsitellään pinona, jokaisen middlewaren esittelyjärjestys on merkityksellinen
@@ -36,7 +39,8 @@ app.use('/css',express.static(path.join(__dirname, 'css')));    // 3.
 app.use('/controllers',express.static(path.join(__dirname, 'controllers')));    // 4.
 app.use('/lib',express.static(path.join(__dirname, 'lib')));    // 5.
 
-app.use('/persons', person);    //6.
+app.use('/persons',person);    //6.
+app.use('/friends',user);       
 
 
 //----------------------------ROUTERS------------------------------------------------
@@ -51,7 +55,6 @@ app.get("/persons", function(req,res){//
     queries.getAllPersons(req,res);
     //res.send("Hello persons there!");
 });
-
 
 
 app.listen(3000); // käynnistetään serveri (kuuntele porttia 3000, voi käyttää tässä testissä portteja 3000 ->)
