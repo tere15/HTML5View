@@ -2,42 +2,46 @@
 <html>
 
     <head>
+        <script src="../lib/jquery-2.1.4.min.js"></script>
+        <script>
+            $(document).ready(function(){
+            
+                $("#sendBtn").click(function(){
+                    console.log("hep");
+                    var data = {
+                        
+                        user:localStorage['username'],
+                        name:$("#name").val(),
+                        address:$("#address").val(),
+                        age:$("#age").val()
+                    }
+                    
+                    $.ajax({
+                        method:'POST',
+                        url:'http://localhost:3000/persons',
+                        data:data,
+                        //dataType:'json'
+                    }).done(function(data){
+                        console.log("Persons added");
+                        window.location="./persons.html";
+                });
+                });
+            });
+        </script>
     </head>
 
     <body>
         <h1>Add new contact info</h1>
-        <form method="post" enctype="application/json" action="/persons">     <!-- enctype - millaista tietoa serverille lähetetään,
+        <form>     <!-- enctype - millaista tietoa serverille lähetetään,
                                                                               action - mihin kohtaan käsittely kohdistuu -->
-            <input type = "text" placeholder="Your full name" name="name" required/>     
+            <input type = "text" placeholder="Your full name" id="name" required/>     
             <!--jokaiselle inputille tietokannassa olevan kentän nimi, form luo objektin inputista -->
-            <input type = "text" placeholder="Your full address" name="address" required/>
-            <input type = "text" placeholder="Your age" name="age" required/>
-            <input type="submit" value="Send"/>
+            <input type = "text" placeholder="Your full address" id="address" required/>
+            <input type = "text" placeholder="Your age" id="age" required/>
+            <input id="sendBtn" type="button" value="Send"/>
         
         </form>
         
-       <!--- oma
-        <form class="form-inline">
-          <br>
-          <div class="form-group">
-            <label for="name">Nimi:</label>
-            <input type="text" class="form-control" id="name" placeholder="">
-          </div>
-          <br>            
-          <div class="form-group">
-            <label for="address">Osoite:</label>
-            <input type="text" class="form-control" id="address" placeholder="">
-          </div>
-          <br>            
-          <div class="form-group">
-            <label for="age">Ikä:</label>
-            <input type="text" class="form-control" id="age" placeholder="">
-          </div>
-          <br>
-          <br>
-          <button onclick="savePerson()" type="save" class="btn btn-default">Lähetä</button>
-        </form>
-        -->
     </body>
 
 </html>

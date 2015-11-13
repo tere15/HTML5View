@@ -28,35 +28,47 @@ exports.getAllPersons = function(req,res){
   */
 
 exports.saveNewPerson = function(req,res){
+
     var personTemp = new db.Person(req.body);   //body sisältää json-objektin
     //Save it to database
     personTemp.save(function(err,ok){
+        
+        db.Friends.update({username:req.body.user},
+                         {$push:{'friends':personTemp._id}},
+                         function(err,model){
+            
+            //Make a redirect to root context
+            res.send("Added stuff");
+        });
 
-        //res.send("Database action done");
-        //Make a redirext to root context
-        res.redirect('/');
     });
 }
 
 //This function deletes one person from our collections (mongoose documentation)
 exports.deletePerson = function(req,res){
     //what happens here is that req.params.id
-    //return strig "id=34844646bbskjhkjh"
+    //return string "id=34844646bbskjhkjh"
     //split function splits the string form "="
     //and creates an array where [0] contains "id"
     //and [1] contains "34844646bbskjhkjh"
+    
+    console.log(req.params);
     var id = req.params.id.split("=")[1];
-    console.log(id);
+    var userName = req.params.username.split("=")[1];
+  
     db.Person.remove({_id:id}, function(err){
         
         if(err){
             res.send(err.message);
+      //If succesfully removed remome also reference from 
+             //User collection 
+             db.Friends.update({username:userName},{$pull:{'friends':id}},function(err,data){ 
+                 console.log(err); 
+                 res.send("Delete ok");     
+             }); 
         }
-        else{
-            res.send("Delete ok");
-        }
-        
     });
+    
     
 }
 
@@ -83,19 +95,19 @@ exports.updatePerson = function(req,res){
 exports.findPersonsByName = function(req,res) {
     
     var name = req.params.nimi.split("=")[1]; //split-operaatio tekee aina taulukon
-    console.log("name:" + name);
+ var username = req.params.username.split("=")[1]; 
+     console.log(name); 
+     console.log(username); 
     
-    db.Person.find({name:{'$regex':'^' + name,'$options':'i'}},function(err,data){
     
-        if(err){
-            res.send('error');
-        }
-        else{
-            console.log(data);
-            res.send(data);
-        }
-    });
-    
+ db.Friends.find({username:username}). 
+         populate({path:'friends',match:{name:{'$regex':'^' + name,'$options':'i'}}}). 
+             exec(function(err,data){ 
+         console.log(err); 
+         console.log(data); 
+         res.send(data[0].friends); 
+     }); 
+
 }
 
 exports.registerFriend = function(req,res){
@@ -143,13 +155,13 @@ exports.loginFriend = function(req,res){
 
 exports.getFriendsByUsername = function(req,res){
     
-    var usern = req.params.username.split("=")[1];
-    db.Friends.find({username:usern}).
-        populate('friends').exec(function(err,data){
+    var usern = req.params.username.split("=")[1];  // eka arvo [0], toka arvo [1] 
+    db.Friends.find({username:usern}).  //find-funktio palauttaa aina taulukon, tässä taulukon user-    objekteja
+        populate('friends').exec(function(err,data){ //populate hakee kaikki henkilön ystävien tiedot
         
             console.log(err);
-            console.log(data);
-            res.send(data.friends);
+            console.log(data[0].friends);
+            res.send(data[0].friends);
     });
         
 }
@@ -157,11 +169,3 @@ exports.getFriendsByUsername = function(req,res){
 
 
 
-
-
-
-
-
-
-
-    
